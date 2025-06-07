@@ -7,13 +7,15 @@ export const AssignmentPollMethodVerbose = {
     N: _(`No per candidate`),
     YN: _(`Yes/No per candidate`),
     YNA: _(`Yes/No/Abstain per candidate`),
-    yna: _(`Yes/No/Abstain per list`)
+    yna: _(`Yes/No/Abstain per list`),
+    STV: _(`Single Transferable Vote`)
 };
 
 export const AssignmentPollPercentBaseVerbose = {
     Y: _(`Sum of votes without general options`),
     YN: _(`Yes/No per candidate`),
     YNA: _(`Yes/No/Abstain per candidate`),
+    STV: _(`Single Transferable Vote`),
     valid: _(`All valid ballots`),
     cast: _(`All casted ballots`),
     entitled: _(`All entitled users`),

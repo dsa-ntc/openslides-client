@@ -85,6 +85,10 @@ export class AssignmentPollDetailContentComponent implements OnInit {
         return this.method === PollMethod.YNA;
     }
 
+    public get isMethodSTV(): boolean {
+        return this.method === PollMethod.STV;
+    }
+
     public get isStarted(): boolean {
         return this.state === PollState.Started;
     }

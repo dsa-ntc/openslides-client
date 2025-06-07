@@ -93,6 +93,10 @@ export class SingleOptionChartTableComponent {
         return this.method === PollMethod.YNA;
     }
 
+    public get isMethodSTV(): boolean {
+        return this.method === PollMethod.STV;
+    }
+
     public get textSizeClass(): string {
         return `text-` + this.iconSize;
     }

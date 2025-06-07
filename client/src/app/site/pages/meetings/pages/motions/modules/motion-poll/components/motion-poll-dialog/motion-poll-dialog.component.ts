@@ -11,7 +11,8 @@ import { MotionPollService } from '../../services';
 
 export const MotionPollMethodsVerbose = {
     YN: _(`Yes/No`),
-    YNA: _(`Yes/No/Abstain`)
+    YNA: _(`Yes/No/Abstain`),
+    STV: _(`Single Transferable Vote`)
 };
 
 @Component({
