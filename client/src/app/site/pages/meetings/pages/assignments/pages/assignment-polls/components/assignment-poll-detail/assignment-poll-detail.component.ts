@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Permission } from 'src/app/domain/definitions/permission';
-import { VoteValue } from 'src/app/domain/models/poll';
+import { PollMethod, VoteValue } from 'src/app/domain/models/poll';
 import {
     BasePollDetailComponent,
     BaseVoteData
@@ -121,7 +121,9 @@ export class AssignmentPollDetailComponent
     }
 
     private voteValueToLabel(vote: VoteValue): string {
-        if (vote === `Y`) {
+        if (Number.isInteger(parseFloat(vote))) {
+            return vote;
+        } else if (vote === `Y`) {
             return this.translate.instant(`Yes`);
         } else if (vote === `N`) {
             return this.translate.instant(`No`);
