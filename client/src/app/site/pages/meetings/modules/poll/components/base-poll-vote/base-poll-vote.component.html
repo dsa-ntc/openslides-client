@@ -117,15 +117,22 @@
                                         </div>
                                     }
                                 }
-                                @for (
-                                    action of voteActions.length ? voteActions : voteOptions;
-                                    track action.vote;
-                                    let i = $index
-                                ) {
-                                    @if (!poll.isTopicPoll) {
-                                        <b class="poll-option-title" [ngClass]="'option' + i">
-                                            {{ action.label | translate }}
-                                        </b>
+                                @if (poll.isMethodSTV) {
+                                    <b class="poll-option-title">
+                                        {{ 'Single Transferable Vote' | translate }}
+                                    </b>
+                                }
+                                @else {
+                                    @for (
+                                        action of voteActions.length ? voteActions : voteOptions;
+                                        track action.vote;
+                                        let i = $index
+                                    ) {
+                                        @if (!poll.isTopicPoll) {
+                                            <b class="poll-option-title" [ngClass]="'option' + i">
+                                                {{ action.label | translate }}
+                                            </b>
+                                        }
                                     }
                                 }
                             </div>
@@ -204,7 +211,6 @@
                                 </ol>
                             </div>
                             
-                            <!-- Available Candidates -->
                             <div style="margin-top: 2rem;">
                                 <h4>{{ 'Available Candidates' | translate }}</h4>
                                 <div class="stv-available-list">

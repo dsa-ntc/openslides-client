@@ -334,7 +334,6 @@ export abstract class BasePollVoteComponent<C extends PollContentObject = any> e
             };
     
             await this.sendVote(user.id, votePayload);
-            // this.submitVoteArray(rankedIds, delegation); // implement this to send to backend
         }
         else {
             const votePayload = {
@@ -558,11 +557,21 @@ export abstract class BasePollVoteComponent<C extends PollContentObject = any> e
                 }
             }
 
-            // TODO: randomize order
-            this.availableCandidates = [...this.poll.options];
+            this.availableCandidates = [...this.shuffle(this.poll.options)];
             this.rankedCandidates = [];
         }
     }
+
+    private shuffle(array: ViewOption[]): ViewOption[] {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex != 0) {
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    };
 
     public moveUp(index: number): void {
         if (index > 0) {
