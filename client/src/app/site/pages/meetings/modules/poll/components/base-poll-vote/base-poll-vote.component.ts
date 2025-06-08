@@ -106,6 +106,12 @@ export abstract class BasePollVoteComponent<C extends PollContentObject = any> e
      */
     public voteActions: VoteOption[] = [];
 
+    /**
+     * For tracking STV rankings.
+     */
+    public availableCandidates: any[] = [];
+    public rankedCandidates: any[] = [];
+
     public get showAvailableVotes(): boolean {
         return !this.poll.isListPoll && this.poll.max_votes_amount > 1;
     }
@@ -314,12 +320,30 @@ export abstract class BasePollVoteComponent<C extends PollContentObject = any> e
         this.deliveringVote[user.id] = true;
         this.cd.markForCheck();
 
-        const votePayload = {
-            value: value,
-            user_id: user.id
-        };
+        if (this.poll.isMethodSTV) {
+            const rankedIds = this.rankedCandidates.map(option => option.id);
 
-        await this.sendVote(user.id, votePayload);
+            const rankingObject = rankedIds.reduce((acc, id, index) => {
+                acc[id] = (index + 1).toString(); // 1-indexed
+                return acc;
+            }, {} as Record<number, String>);
+
+            const votePayload = {
+                value: rankingObject,
+                user_id: user.id
+            };
+    
+            await this.sendVote(user.id, votePayload);
+            // this.submitVoteArray(rankedIds, delegation); // implement this to send to backend
+        }
+        else {
+            const votePayload = {
+                value: value,
+                user_id: user.id
+            };
+    
+            await this.sendVote(user.id, votePayload);
+        }
     }
 
     public getGlobalCSSClass(option: VoteOption, user: ViewUser = this.user): string {
@@ -533,6 +557,34 @@ export abstract class BasePollVoteComponent<C extends PollContentObject = any> e
                     this.globalVoteActions.push(option);
                 }
             }
+
+            // TODO: randomize order
+            this.availableCandidates = [...this.poll.options];
+            this.rankedCandidates = [];
         }
+    }
+
+    public moveUp(index: number): void {
+        if (index > 0) {
+            [this.rankedCandidates[index - 1], this.rankedCandidates[index]] =
+                [this.rankedCandidates[index], this.rankedCandidates[index - 1]];
+        }
+    }
+    
+    public moveDown(index: number): void {
+        if (index < this.rankedCandidates.length - 1) {
+            [this.rankedCandidates[index + 1], this.rankedCandidates[index]] =
+                [this.rankedCandidates[index], this.rankedCandidates[index + 1]];
+        }
+    }
+    
+    public removeFromRanking(index: number): void {
+        const removed = this.rankedCandidates.splice(index, 1)[0];
+        this.availableCandidates.push(removed);
+    }
+    
+    public addToRanking(candidate: any): void {
+        this.availableCandidates = this.availableCandidates.filter(c => c.id !== candidate.id);
+        this.rankedCandidates.push(candidate);
     }
 }
