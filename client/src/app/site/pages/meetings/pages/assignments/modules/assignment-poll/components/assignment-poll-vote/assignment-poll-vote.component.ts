@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { _ } from '@ngx-translate/core';
-import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { PollMethod } from 'src/app/domain/models/poll/poll-constants';
 import { VoteValue } from 'src/app/domain/models/poll/vote-constants';
 import {
@@ -91,9 +90,7 @@ export class AssignmentPollVoteComponent extends BasePollVoteComponent<ViewAssig
             this.voteRequestData[user.id].value = {};
         }
 
-        if (this.poll.isMethodSTV) {
-            // pass
-        } else if (this.poll.isMethodY || this.poll.isMethodN) {
+        if (this.poll.isMethodY || this.poll.isMethodN) {
             const maxVotesAmount = this.poll.max_votes_amount;
             const tmpVoteRequest = this.poll.options
                 .map(option => option.id)
@@ -124,7 +121,7 @@ export class AssignmentPollVoteComponent extends BasePollVoteComponent<ViewAssig
                     this.translate.instant(`You reached the maximum amount of votes. Deselect somebody first.`)
                 );
             }
-        } else {
+        } else if (!this.poll.isMethodSTV) {
             // YN/YNA
             if (
                 this.voteRequestData[user.id].value[optionId] &&
