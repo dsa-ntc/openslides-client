@@ -64,7 +64,6 @@ export class SortingListComponent<T extends Selectable = Selectable> implements 
      */
     @Input()
     public set input(newValues: T[] | Observable<T[]>) {
-        console.log('input', newValues);
         if (newValues) {
             if (this.inputSubscription) {
                 this.inputSubscription.unsubscribe();
@@ -77,7 +76,6 @@ export class SortingListComponent<T extends Selectable = Selectable> implements 
                 this.inputSubscription = null;
                 this.updateArray(newValues);
             }
-            console.log('done again', this.sortedItems);
         }
     }
 
@@ -120,18 +118,15 @@ export class SortingListComponent<T extends Selectable = Selectable> implements 
      * @param newValues The new values to set.
      */
     private async updateArray(newValues: T[]): Promise<void> {
-        console.log('update array', newValues);
         this.currentItems = newValues.map(val => val);
         this.sortingChanged = true;
         const unlock = await this.draggingMutex.lock();
         newValues = [...this.currentItems];
         this.updateSortedList(newValues);
         unlock();
-        console.log('done', this.sortedItems);
     }
 
     private updateSortedList(newValues: T[]): void {
-        console.log('update', this.sortedItems, newValues);
         const set = new Set(this.sortedItems.map(item => item.id));
         if (this.live || this.sortedItems.length !== newValues.length || newValues.some(value => !set.has(value.id))) {
             this.sortedItems = newValues.map(val => val);

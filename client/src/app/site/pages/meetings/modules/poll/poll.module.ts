@@ -18,7 +18,6 @@ import { DirectivesModule } from 'src/app/ui/directives';
 import { IconContainerComponent } from 'src/app/ui/modules/icon-container';
 import { ListModule } from 'src/app/ui/modules/list';
 import { SearchSelectorModule } from 'src/app/ui/modules/search-selector';
-import { SortingListModule } from 'src/app/ui/modules/sorting/modules';
 
 import { ChartComponent } from './components/chart/chart.component';
 import { CheckInputComponent } from './components/check-input/check-input.component';
@@ -28,7 +27,6 @@ import { PollFilteredVotesChartComponent } from './components/poll-filtered-vote
 import { PollProgressComponent } from './components/poll-progress/poll-progress.component';
 import { SingleOptionChartTableComponent } from './components/single-option-chart-table/single-option-chart-table.component';
 import { VotesTableComponent } from './components/votes-table/votes-table.component';
-import { PollRankingComponent } from './components/poll-ranking/poll-ranking.component';
 import { VotingPrivacyDialogModule } from './modules/voting-privacy-dialog';
 import { PollKeyVerbosePipe, PollParseNumberPipe, PollPercentBasePipe } from './pipes';
 import { PollServiceModule } from './services/poll-service.module';
@@ -43,8 +41,7 @@ const COMPONENTS = [
     EntitledUsersTableComponent,
     SingleOptionChartTableComponent,
     VotesTableComponent,
-    PollCannotVoteMessageComponent,
-    PollRankingComponent,
+    PollCannotVoteMessageComponent
 ];
 
 @NgModule({
@@ -63,7 +60,6 @@ const COMPONENTS = [
         ReactiveFormsModule,
         MatTooltipModule,
         DragDropModule,
-        SortingListModule,
         IconContainerComponent,
         FormsModule,
         VotingPrivacyDialogModule,

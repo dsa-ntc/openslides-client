@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Directive, inject, Input, OnInit } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { _ } from '@ngx-translate/core';
 import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, Observable, Subscription } from 'rxjs';
@@ -19,7 +19,6 @@ import { ViewUser } from 'src/app/site/pages/meetings/view-models/view-user';
 import { OperatorService } from 'src/app/site/services/operator.service';
 import { ViewPortService } from 'src/app/site/services/view-port.service';
 import { CustomIcon } from 'src/app/ui/modules/custom-icon/definitions';
-import { SortingListComponent } from 'src/app/ui/modules/sorting/modules/sorting-list/components/sorting-list/sorting-list.component';
 
 import { MeetingSettingsService } from '../../../../services/meeting-settings.service';
 import { VoteControllerService } from '../../services/vote-controller.service';
@@ -41,9 +40,6 @@ export interface PollVoteViewSettings {
 @Directive()
 export abstract class BasePollVoteComponent<C extends PollContentObject = any> extends BaseComponent implements OnInit {
     public readonly drawnCross = CustomIcon.DRAWN_CROSS;
-
-    @ViewChild(SortingListComponent)
-    public listElement!: SortingListComponent;
 
     @Input()
     public set poll(value: ViewPoll<C>) {
@@ -113,8 +109,8 @@ export abstract class BasePollVoteComponent<C extends PollContentObject = any> e
     /**
      * For tracking STV rankings.
      */
-    public availableCandidates: ViewOption[] = [];
-    public rankedCandidates: ViewOption[] = [];
+    public availableCandidates: any[] = [];
+    public rankedCandidates: any[] = [];
 
     public get showAvailableVotes(): boolean {
         return !this.poll.isListPoll && this.poll.max_votes_amount > 1;
@@ -591,14 +587,13 @@ export abstract class BasePollVoteComponent<C extends PollContentObject = any> e
         }
     }
     
-    public removeFromRanking(candidate: ViewOption): void {
-        console.log('removefromrakings', candidate.id);
-        this.rankedCandidates = this.rankedCandidates.filter(c => c.id !== candidate.id);
-        this.availableCandidates = [...this.availableCandidates, candidate];
+    public removeFromRanking(index: number): void {
+        const removed = this.rankedCandidates.splice(index, 1)[0];
+        this.availableCandidates.push(removed);
     }
     
-    public addToRanking(candidate: ViewOption): void {
+    public addToRanking(candidate: any): void {
         this.availableCandidates = this.availableCandidates.filter(c => c.id !== candidate.id);
-        this.rankedCandidates = [...this.rankedCandidates, candidate];
+        this.rankedCandidates.push(candidate);
     }
 }
