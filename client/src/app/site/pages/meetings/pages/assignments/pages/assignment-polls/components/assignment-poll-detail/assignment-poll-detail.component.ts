@@ -87,9 +87,14 @@ export class AssignmentPollDetailComponent
                             ? optionContent?.getShortenedTitle(40)
                             : (optionContent?.getShortName() ?? this.translate.instant(`Deleted user`));
                         votes[token].votes.push(
-                            (pollOptions.length === 1 ? `` : `${candidate_name}: `) +
-                            `${this.voteValueToLabel(vote.value)}`
+                            this.poll.pollmethod === PollMethod.STV
+                                ? `${this.voteValueToLabel(vote.value)}` + '. ' + `${candidate_name}`
+                                : (pollOptions.length === 1 ? `` : `${candidate_name}: `) +
+                                    `${this.voteValueToLabel(vote.value)}`
                         );
+                        if (this.poll.pollmethod === PollMethod.STV) {
+                            votes[token].votes.sort()
+                        }
                     }
                 }
             }
