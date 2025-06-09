@@ -189,37 +189,44 @@
                         @if (poll.isMethodSTV) {
                             <div>
                                 <h4>{{ 'Your Ranking' | translate }}</h4>
-                                <ol class="stv-ranking-list">
-                                    <li *ngFor="let candidate of rankedCandidates; let i = index" class="stv-ranking-item">
-                                        <div class="stv-item-row">
-                                            <span class="stv-item-name">
-                                                {{ i + 1 }}. {{ candidate.content_object?.getTitle?.() || candidate.text }}
-                                            </span>
-                                            <span class="stv-item-controls">
-                                                <button mat-icon-button (click)="moveUp(i)" [disabled]="i === 0" matTooltip="Move up">
-                                                    <mat-icon>arrow_upward</mat-icon>
-                                                </button>
-                                                <button mat-icon-button (click)="moveDown(i)" [disabled]="i === rankedCandidates.length - 1" matTooltip="Move down">
-                                                    <mat-icon>arrow_downward</mat-icon>
-                                                </button>
-                                                <button mat-icon-button color="warn" (click)="removeFromRanking(i)" matTooltip="Remove from ranking">
-                                                    <mat-icon>delete</mat-icon>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </li>
-                                </ol>
+                                <os-poll-ranking
+                                    [poll]="poll"
+                                    [availableCandidates]="availableCandidates"
+                                    [rankedCandidates]="rankedCandidates"
+                                    [removeFromRanking]="removeFromRanking"
+                                ></os-poll-ranking>
                             </div>
+
+                            <ol class="stv-ranking-list">
+                                <li *ngFor="let candidate of rankedCandidates; let i = index" class="stv-ranking-item">
+                                    <div class="stv-item-row">
+                                        <span class="stv-item-name">
+                                            {{ i + 1 }}. {{ candidate.content_object?.getTitle?.() || candidate.text }}
+                                        </span>
+                                        <span class="stv-item-controls">
+                                            <button mat-icon-button (click)="moveUp(i)" [disabled]="i === 0" matTooltip="Move up">
+                                                <mat-icon>arrow_upward</mat-icon>
+                                            </button>
+                                            <button mat-icon-button (click)="moveDown(i)" [disabled]="i === rankedCandidates.length - 1" matTooltip="Move down">
+                                                <mat-icon>arrow_downward</mat-icon>
+                                            </button>
+                                            <button mat-icon-button color="warn" (click)="removeFromRanking(candidate)" matTooltip="Remove from ranking">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </li>
+                            </ol>
                             
                             <div style="margin-top: 2rem;">
                                 <h4>{{ 'Available Candidates' | translate }}</h4>
                                 <div class="stv-available-list">
-                                    <div *ngFor="let candidate of availableCandidates" class="stv-available-item">
+                                    <div *ngFor="let candidate of availableCandidates; let i = index" class="stv-available-item">
                                         <span>
                                             {{ candidate.content_object?.getTitle?.() || candidate.text }}
                                         </span>
-                                        <button mat-button color="primary" (click)="addToRanking(candidate)">
-                                            {{ 'Add to ranking' | translate }}
+                                        <button mat-icon-button (click)="addToRanking(candidate)" matTooltip="Add to ranking">
+                                            <mat-icon>add</mat-icon>
                                         </button>
                                     </div>
                                 </div>
