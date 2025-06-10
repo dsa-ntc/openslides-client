@@ -109,8 +109,8 @@ export abstract class BasePollVoteComponent<C extends PollContentObject = any> e
     /**
      * For tracking STV rankings.
      */
-    public availableCandidates: any[] = [];
-    public rankedCandidates: any[] = [];
+    public availableCandidates: ViewOption[] = [];
+    public rankedCandidates: ViewOption[] = [];
 
     public get showAvailableVotes(): boolean {
         return !this.poll.isListPoll && this.poll.max_votes_amount > 1;
@@ -587,12 +587,12 @@ export abstract class BasePollVoteComponent<C extends PollContentObject = any> e
         }
     }
     
-    public removeFromRanking(index: number): void {
-        const removed = this.rankedCandidates.splice(index, 1)[0];
-        this.availableCandidates.push(removed);
+    public removeFromRanking(candidate: ViewOption): void {
+        this.rankedCandidates = this.rankedCandidates.filter(c => c.id !== candidate.id);
+        this.availableCandidates.push(candidate);
     }
     
-    public addToRanking(candidate: any): void {
+    public addToRanking(candidate: ViewOption): void {
         this.availableCandidates = this.availableCandidates.filter(c => c.id !== candidate.id);
         this.rankedCandidates.push(candidate);
     }

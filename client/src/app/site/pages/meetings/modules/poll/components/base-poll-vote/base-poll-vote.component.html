@@ -202,8 +202,8 @@
                                                 <button mat-icon-button (click)="moveDown(i)" [disabled]="i === rankedCandidates.length - 1" matTooltip="Move down">
                                                     <mat-icon>arrow_downward</mat-icon>
                                                 </button>
-                                                <button mat-icon-button color="warn" (click)="removeFromRanking(i)" matTooltip="Remove from ranking">
-                                                    <mat-icon>delete</mat-icon>
+                                                <button mat-icon-button color="warn" (click)="removeFromRanking(candidate)" matTooltip="Remove from ranking">
+                                                    <mat-icon>close</mat-icon>
                                                 </button>
                                             </span>
                                         </div>
@@ -218,8 +218,8 @@
                                         <span>
                                             {{ candidate.content_object?.getTitle?.() || candidate.text }}
                                         </span>
-                                        <button mat-button color="primary" (click)="addToRanking(candidate)">
-                                            {{ 'Add to ranking' | translate }}
+                                        <button mat-icon-button color="warn" (click)="removeFromRanking(candidate)" matTooltip="{{ 'Add to ranking' | translate }}">
+                                            <mat-icon>add</mat-icon>
                                         </button>
                                     </div>
                                 </div>
