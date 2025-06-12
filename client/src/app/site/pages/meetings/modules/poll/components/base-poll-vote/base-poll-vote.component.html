@@ -218,7 +218,7 @@
                                         <span>
                                             {{ candidate.content_object?.getTitle?.() || candidate.text }}
                                         </span>
-                                        <button mat-icon-button color="warn" (click)="removeFromRanking(candidate)" matTooltip="{{ 'Add to ranking' | translate }}">
+                                        <button mat-icon-button (click)="addToRanking(candidate)" matTooltip="Add to raking">
                                             <mat-icon>add</mat-icon>
                                         </button>
                                     </div>
@@ -375,7 +375,6 @@
                             }
                         }
 
-                        
                         @if (
                             (poll.isMethodY || poll.isMethodN || poll.isMethodYN) &&
                             poll.hasGlobalOptionEnabled &&
