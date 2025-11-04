@@ -179,8 +179,7 @@ export abstract class PollService {
                 vote: `amount_global_yes`,
                 showPercent: this.showPercentOfValidOrCast(poll),
                 amount: poll.global_option?.yes,
-                hide:
-                    poll.global_option?.yes === VOTE_UNDOCUMENTED ||
+                hide: poll.global_option?.yes === VOTE_UNDOCUMENTED ||
                     !poll.global_option?.yes ||
                     poll.pollmethod === PollMethod.N
             },
@@ -188,13 +187,17 @@ export abstract class PollService {
                 vote: `amount_global_no`,
                 showPercent: this.showPercentOfValidOrCast(poll),
                 amount: poll.global_option?.no,
-                hide: poll.global_option?.no === VOTE_UNDOCUMENTED || !poll.global_option?.no
+                hide: poll.global_option?.no === VOTE_UNDOCUMENTED ||
+                    !poll.global_option?.no ||
+                    poll.pollmethod === PollMethod.STV
             },
             {
                 vote: `amount_global_abstain`,
                 showPercent: this.showPercentOfValidOrCast(poll),
                 amount: poll.global_option?.abstain,
-                hide: poll.global_option?.abstain === VOTE_UNDOCUMENTED || !poll.global_option?.abstain
+                hide: poll.global_option?.abstain === VOTE_UNDOCUMENTED ||
+                    !poll.global_option?.abstain ||
+                    poll.pollmethod === PollMethod.STV
             }
         ];
     }
@@ -305,19 +308,25 @@ export abstract class PollService {
             {
                 vote: YES_KEY,
                 icon: `check_circle`,
-                showPercent: true
-            },
-            {
-                vote: NO_KEY,
-                icon: `cancel`,
-                showPercent: true
-            }
+                hide: false,
+                showPercent: poll.pollmethod !== PollMethod.STV
+            }  
         ];
 
-        if (poll.pollmethod !== PollMethod.YN) {
+        if (poll.pollmethod !== PollMethod.STV) {
+            keys.push({
+                vote: NO_KEY,
+                icon: `cancel`,
+                hide: false,
+                showPercent: true
+            });
+        }
+
+        if (poll.pollmethod !== PollMethod.YN && poll.pollmethod !== PollMethod.STV) {
             keys.push({
                 vote: ABSTAIN_KEY,
                 icon: `circle`,
+                hide: false,
                 showPercent: this.showAbstainPercent(poll)
             });
         }
@@ -326,7 +335,8 @@ export abstract class PollService {
     }
 
     private showAbstainPercent(poll: PollData): boolean {
-        return (
+        return poll.pollmethod !== PollMethod.STV &&
+        (
             poll.onehundred_percent_base === PollPercentBase.YNA ||
             poll.onehundred_percent_base === PollPercentBase.Valid ||
             poll.onehundred_percent_base === PollPercentBase.Cast
@@ -334,7 +344,8 @@ export abstract class PollService {
     }
 
     public showPercentOfValidOrCast(poll: PollData): boolean {
-        return (
+        return poll.pollmethod !== PollMethod.STV &&
+        (
             poll.onehundred_percent_base === PollPercentBase.Valid ||
             poll.onehundred_percent_base === PollPercentBase.Cast ||
             poll.onehundred_percent_base === PollPercentBase.Entitled ||
@@ -352,12 +363,12 @@ export abstract class PollService {
             {
                 vote: `votesinvalid`,
                 hide: poll.votesinvalid === VOTE_UNDOCUMENTED || poll.type !== PollType.Analog,
-                showPercent: poll.onehundred_percent_base === PollPercentBase.Cast
+                showPercent: poll.onehundred_percent_base === PollPercentBase.Cast && poll.pollmethod !== PollMethod.STV
             },
             {
                 vote: `votescast`,
                 hide: poll.votescast === VOTE_UNDOCUMENTED || poll.type !== PollType.Analog,
-                showPercent: poll.onehundred_percent_base === PollPercentBase.Cast
+                showPercent: poll.onehundred_percent_base === PollPercentBase.Cast && poll.pollmethod !== PollMethod.STV
             }
         ];
     }

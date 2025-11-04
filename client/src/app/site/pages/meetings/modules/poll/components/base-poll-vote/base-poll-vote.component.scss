@@ -269,3 +269,46 @@
 .text-right {
     text-align: right;
 }
+
+.stv-ranking-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.stv-ranking-item {
+    margin-bottom: 0.5rem;
+    background: #f1f1f1;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stv-item-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stv-item-controls button {
+    margin-left: 0.25rem;
+}
+
+.stv-available-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stv-available-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+}

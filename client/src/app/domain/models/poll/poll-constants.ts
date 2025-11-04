@@ -69,7 +69,8 @@ export enum PollMethod {
     Y = `Y`,
     YN = `YN`,
     YNA = `YNA`,
-    N = `N`
+    N = `N`,
+    STV = `STV`,
 }
 
 export enum FormPollMethod {
@@ -77,7 +78,8 @@ export enum FormPollMethod {
     YN = `YN`,
     YNA = `YNA`,
     N = `N`,
-    LIST_YNA = `yna`
+    LIST_YNA = `yna`,
+    STV = `STV`,
 }
 
 export enum PollPercentBase {
@@ -166,7 +168,8 @@ export const PollMethodVerbose = {
     Y: ``,
     N: ``,
     YN: _(`Yes/No`),
-    YNA: _(`Yes/No/Abstain`)
+    YNA: _(`Yes/No/Abstain`),
+    STV: _(`Single Transferable Vote`),
 };
 
 export const PollPercentBaseVerbose = {
